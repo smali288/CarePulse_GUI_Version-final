@@ -27,3 +27,9 @@ A comprehensive Hospital Management System developed in *C* .
 * *Version Control:* Git & GitHub
 
 ---
+
+## how to compile and run in vs code
+1)gcc main.c member1.c member2.c member3.c member4.c menus.c security.c validation.c -o CarePulse.exe
+
+2).\CarePulse.exe
+

@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CarePulse | Hospital Management</title>
+    <!-- CAREPULSE TEST 123 -->
+    <style>
+        :root {
+            --navy: #12243a;
+            --navy2: #1b3450;
+            --teal: #16b8a6;
+            --bg: #f3f7fa;
+            --ink: #203247;
+            --muted: #7c8b9c;
+            --line: #e5edf2;
+            --red: #e65d68;
+            --amber: #e8a742;
+            --green: #35ad7c
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter,Segoe UI,Arial,sans-serif;
+            background: var(--bg);
+            color: var(--ink)
+        }
+
+        button, input, select {
+            font: inherit
+        }
+
+        button {
+            cursor: pointer;
+            border: 0;
+            border-radius: 9px;
+            padding: 10px 14px;
+            font-weight: 650
+        }
+
+            button.primary {
+                background: var(--teal);
+                color: white
+            }
+
+            button.soft {
+                background: #e8f8f5;
+                color: #128e82
+            }
+
+            button.danger {
+                background: #fff0f1;
+                color: #d64e5b
+            }
+
+            button.dark {
+                background: var(--navy2);
+                color: white
+            }
+
+        .app {
+            display: flex;
+            min-height: 100vh
+        }
+
+        .sidebar {
+            width: 240px;
+            background: var(--navy);
+            color: white;
+            padding: 25px 16px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 19px;
+            font-weight: 800;
+            padding: 0 10px 30px
+        }
+
+        .logo {
+            background: var(--teal);
+            border-radius: 12px;
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            font-size: 22px
+        }
+
+        .side-label {
+            font-size: 10px;
+            color: #8297ad;
+            letter-spacing: 1.7px;
+            padding: 12px 12px
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 5px
+        }
+
+            .nav button {
+                color: #b8c8d8;
+                background: transparent;
+                text-align: left;
+                padding: 12px;
+                display: flex;
+                gap: 12px;
+                align-items: center;
+                font-size: 13px
+            }
+
+                .nav button.active, .nav button:hover {
+                    background: #25415c;
+                    color: white
+                }
+
+                .nav button.active {
+                    box-shadow: inset 3px 0 var(--teal)
+                }
+
+            .nav .ico {
+                width: 20px;
+                text-align: center
+            }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            border-top: 1px solid #2a4057;
+            padding: 17px 10px 0;
+            color: #a9bacb;
+            font-size: 12px
+        }
+
+        .main {
+            flex: 1;
+            min-width: 0
+        }
+
+        .topbar {
+            height: 75px;
+            background: white;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px
+        }
+
+        .crumb {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .topright {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 12px
+        }
+
+        .online {
+            color: var(--green);
+            font-weight: 700
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            background: #d9f4ef;
+            color: #168f82;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 800
+        }
+
+        .content {
+            padding: 28px 32px;
+            max-width: 1500px;
+            margin: auto
+        }
+
+        .head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px
+        }
+
+            .head h1 {
+                font-size: 25px;
+                margin: 0 0 7px
+            }
+
+            .head p {
+                margin: 0;
+                color: var(--muted);
+                font-size: 13px
+            }
+
+        .head-actions {
+            display: flex;
+            gap: 9px;
+            flex-wrap: wrap
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4,minmax(0,1fr));
+            gap: 16px;
+            margin-bottom: 22px
+        }
+
+        .metric {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 19px
+        }
+
+        .metric-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--muted);
+            font-size: 12px
+        }
+
+        .metric-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-size: 17px;
+            background: #e5f8f5
+        }
+
+        .metric strong {
+            display: block;
+            font-size: 28px;
+            margin: 12px 0 7px
+        }
+
+        .metric small {
+            font-size: 11px;
+            color: var(--muted)
+        }
+
+            .metric small em {
+                color: var(--green);
+                font-style: normal;
+                font-weight: 700
+            }
+
+        .layout2 {
+            display: grid;
+            grid-template-columns: minmax(0,1.5fr) minmax(280px,1fr);
+            gap: 17px
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 18px;
+            min-width: 0
+        }
+
+        .panel-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 17px;
+            gap: 10px
+        }
+
+            .panel-head h3 {
+                font-size: 15px;
+                margin: 0
+            }
+
+            .panel-head span {
+                font-size: 11px;
+                color: var(--muted)
+            }
+
+        .alert {
+            border-radius: 10px;
+            padding: 12px 13px;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 10px;
+            background: #fff1f2
+        }
+
+            .alert .dot {
+                background: var(--red);
+                width: 8px;
+                height: 8px;
+                border-radius: 50%
+            }
+
+            .alert strong {
+                font-size: 12px
+            }
+
+            .alert small {
+                display: block;
+                color: #a56d72;
+                margin-top: 4px;
+                font-size: 11px
+            }
+
+            .alert .tag {
+                margin-left: auto;
+                background: #ffe0e3;
+                color: #ce4a57;
+                padding: 5px 8px;
+                border-radius: 6px;
+                font-size: 10px;
+                font-weight: 800
+            }
+
+        .queue-item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--line)
+        }
+
+            .queue-item:last-child {
+                border: 0
+            }
+
+        .patient-avatar {
+            width: 37px;
+            height: 37px;
+            border-radius: 11px;
+            background: #e9effb;
+            display: grid;
+            place-items: center;
+            color: #5678bd;
+            font-weight: 800;
+            font-size: 12px
+        }
+
+        .qname {
+            font-size: 12px;
+            font-weight: 750
+        }
+
+        .qsub {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 4px
+        }
+
+        .severity {
+            margin-left: auto;
+            font-size: 10px;
+            font-weight: 800;
+            border-radius: 6px;
+            padding: 5px 8px;
+            background: #fff0e5;
+            color: #c87931
+        }
+
+            .severity.critical {
+                background: #ffe4e7;
+                color: #d14c5a
+            }
+
+            .severity.low {
+                background: #e5f8ef;
+                color: #239567
+            }
+
+        .tablewrap {
+            overflow: auto
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px
+        }
+
+        th {
+            text-align: left;
+            color: #8a98a7;
+            font-weight: 650;
+            font-size: 10px;
+            letter-spacing: .5px;
+            padding: 11px;
+            border-bottom: 1px solid var(--line);
+            white-space: nowrap
+        }
+
+        td {
+            padding: 13px 11px;
+            border-bottom: 1px solid #eff3f6;
+            white-space: nowrap
+        }
+
+        tr:last-child td {
+            border-bottom: 0
+        }
+
+        .status {
+            font-size: 10px;
+            font-weight: 750;
+            padding: 5px 8px;
+            border-radius: 6px;
+            background: #e5f8ef;
+            color: #249367
+        }
+
+            .status.warning {
+                background: #fff3df;
+                color: #b77d26
+            }
+
+            .status.critical {
+                background: #ffe4e7;
+                color: #d14c5a
+            }
+
+        .search {
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            padding: 9px 11px;
+            outline: none;
+            background: #fbfdfe;
+            min-width: 160px
+        }
+
+            .search:focus, input:focus, select:focus {
+                border-color: var(--teal);
+                outline: 2px solid #d5f5f0
+            }
+
+        .tools {
+            display: flex;
+            gap: 9px;
+            flex-wrap: wrap
+        }
+
+        .sectionpage {
+            display: none
+        }
+
+            .sectionpage.active {
+                display: block
+            }
+
+        .formgrid {
+            display: grid;
+            grid-template-columns: repeat(2,minmax(0,1fr));
+            gap: 13px
+        }
+
+        .field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: #718193;
+            margin-bottom: 7px
+        }
+
+        .field input, .field select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: white
+        }
+
+        .field.full {
+            grid-column: 1/-1
+        }
+
+        .formactions {
+            display: flex;
+            gap: 9px;
+            margin-top: 17px
+        }
+
+        .empty {
+            padding: 26px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        .ambulances {
+            display: grid;
+            grid-template-columns: repeat(6,minmax(0,1fr));
+            gap: 9px
+        }
+
+        .slot {
+            padding: 15px 4px;
+            border-radius: 10px;
+            background: #e5f8ef;
+            color: #249367;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 800
+        }
+
+            .slot.busy {
+                background: #ffe4e7;
+                color: #d14c5a
+            }
+
+            .slot small {
+                display: block;
+                font-size: 10px;
+                margin-top: 5px
+            }
+
+        .toast {
+            position: fixed;
+            bottom: 22px;
+            right: 24px;
+            background: var(--navy);
+            color: white;
+            padding: 13px 18px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px #14243a30;
+            font-size: 13px;
+            display: none;
+            z-index: 5
+        }
+
+        .modalback {
+            position: fixed;
+            inset: 0;
+            background: #0c1a2b88;
+            display: none;
+            place-items: center;
+            z-index: 4;
+            padding: 20px
+        }
+
+        .modal {
+            background: white;
+            border-radius: 15px;
+            padding: 24px;
+            width: min(500px,100%)
+        }
+
+            .modal h2 {
+                margin: 0 0 20px;
+                font-size: 19px
+            }
+
+            .modal .close {
+                float: right;
+                background: #f0f4f7;
+                color: #536779
+            }
+
+        .footer-note {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 12px
+        }
+
+        @media(max-width:1050px) {
+            .sidebar {
+                width: 205px
+            }
+
+            .cards {
+                grid-template-columns: repeat(2,minmax(0,1fr))
+            }
+
+            .layout2 {
+                grid-template-columns: 1fr
+            }
+
+            .content {
+                padding: 22px
+            }
+        }
+
+        @media(max-width:650px) {
+            .sidebar {
+                width: 65px;
+                padding: 16px 7px
+            }
+
+            .brand {
+                padding: 0 5px 20px
+            }
+
+                .brand span:not(.logo), .side-label, .nav button .label, .sidebar-bottom {
+                    display: none
+                }
+
+            .nav button {
+                justify-content: center;
+                padding: 13px 5px
+            }
+
+            .topbar {
+                padding: 0 14px
+            }
+
+            .content {
+                padding: 17px 13px
+            }
+
+            .head {
+                align-items: flex-start;
+                flex-direction: column
+            }
+
+            .cards {
+                gap: 9px
+            }
+
+            .metric {
+                padding: 13px
+            }
+
+                .metric strong {
+                    font-size: 23px
+                }
+
+            .ambulances {
+                grid-template-columns: repeat(3,1fr)
+            }
+
+            .formgrid {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand"><span class="logo">✚</span><span>CarePulse</span></div>
+            <div class="side-label">WORKSPACE</div>
+            <nav class="nav">
+                <button class="active" data-page="dashboard"><span class="ico">▦</span><span class="label">Overview</span></button>
+                <button data-page="patients"><span class="ico">♙</span><span class="label">Patients</span></button>
+                <button data-page="emergency"><span class="ico">✚</span><span class="label">Emergency & ER</span></button>
+                <button data-page="ambulance"><span class="ico">🚑</span><span class="label">Ambulance Control</span></button>
+                <button data-page="pharmacy"><span class="ico">⚕</span><span class="label">Pharmacy</span></button>
+                <button data-page="billing"><span class="ico">▤</span><span class="label">Billing Desk</span></button>
+                <button data-page="reports"><span class="ico">▥</span><span class="label">Reports & Analytics</span></button>
+            </nav>
+            <div class="side-label">SYSTEM</div><nav class="nav"><button onclick="toast('Settings panel is a UI prototype.')"><span class="ico">⚙</span><span class="label">Settings</span></button></nav>
+            <div class="sidebar-bottom">● System operational<br><br>Hospital ER Command<br><span style="color:#6e879f">Prototype interface</span></div>
+        </aside>
+        <main class="main">
+            <header class="topbar"><div class="crumb">Hospital Operations <span style="margin:0 8px">/</span> <b id="crumb">Overview</b></div><div class="topright"><span class="online">● All systems online</span><span>🔔</span><div class="avatar">AD</div><span>Admin Desk</span></div></header>
+            <div class="content">
+                <section id="dashboard" class="sectionpage active">
+                    <div class="head"><div><h1>Hospital Overview</h1><p>Welcome back. Here's your hospital's operational snapshot.</p></div><div class="head-actions"><button class="soft" onclick="showPage('patients')">＋ Register Patient</button><button class="primary" onclick="showPage('emergency')">⚡ ER Console</button></div></div>
+                    <div class="cards">
+                        <div class="metric"><div class="metric-top">Registered Patients <span class="metric-icon">♙</span></div><strong id="mPatients">0</strong><small><em>● Live count</em> in records</small></div>
+                        <div class="metric"><div class="metric-top">Emergency Queue <span class="metric-icon" style="background:#fff0e5">✚</span></div><strong id="mQueue">0</strong><small>Patients awaiting triage</small></div>
+                        <div class="metric"><div class="metric-top">Ambulances Busy <span class="metric-icon" style="background:#e9effb">🚑</span></div><strong id="mAmb">2 <small style="font-size:15px;color:#8b99a8">/ 24</small></strong><small><em>Fleet availability</em></small></div>
+                        <div class="metric"><div class="metric-top">Pharmacy Items <span class="metric-icon" style="background:#fff4df">⚕</span></div><strong id="mMeds">5</strong><small><span style="color:var(--amber)">●</span> Stock monitoring active</small></div>
+                    </div>
+                    <div class="layout2">
+                        <div>
+                            <div class="panel"><div class="panel-head"><h3>Emergency Alerts</h3><span id="alertCount">0 active alerts</span></div><div id="alerts"></div></div>
+                            <div class="panel"><div class="panel-head"><h3>Recent Patient Records</h3><button class="soft" onclick="showPage('patients')">View all →</button></div><div class="tablewrap"><table><thead><tr><th>PATIENT</th><th>ID</th><th>AGE</th><th>BLOOD</th><th>TRIAGE</th></tr></thead><tbody id="recentPatients"></tbody></table></div></div>
+                        </div>
+                        <div>
+                            <div class="panel"><div class="panel-head"><h3>ER Priority Queue</h3><span>Severity ranked</span></div><div id="queuePreview"></div><button class="soft" style="width:100%;margin-top:10px" onclick="showPage('emergency')">Open ER console →</button></div>
+                            <div class="panel"><div class="panel-head"><h3>Pharmacy Stock Watch</h3><span>Low stock</span></div><div id="stockPreview"></div><button class="soft" style="width:100%;margin-top:10px" onclick="showPage('pharmacy')">Manage inventory →</button></div>
+                        </div>
+                    </div>
+                </section>
+                <section id="patients" class="sectionpage"><div class="head"><div><h1>Patient Records</h1><p>Manage registration and patient details.</p></div><button class="primary" onclick="openModal('patientModal')">＋ Add Patient</button></div><div class="panel"><div class="panel-head"><h3>Registered Patients</h3><input class="search" id="patientSearch" placeholder="Search name or ID…" oninput="renderPatients()"></div><div class="tablewrap"><table><thead><tr><th>NAME</th><th>PATIENT ID</th><th>AGE</th><th>GENDER</th><th>PHONE</th><th>BLOOD GROUP</th><th>SEVERITY</th><th>ACTION</th></tr></thead><tbody id="patientsTable"></tbody></table></div></div></section>
+                <section id="emergency" class="sectionpage"><div class="head"><div><h1>Emergency & ER Console</h1><p>Priority queue for rapid triage and treatment.</p></div><button class="primary" onclick="openModal('queueModal')">＋ Add to ER Queue</button></div><div class="cards"><div class="metric"><div class="metric-top">In Queue <span class="metric-icon">✚</span></div><strong id="erCount">0</strong><small>Waiting for treatment</small></div><div class="metric"><div class="metric-top">Critical <span class="metric-icon" style="background:#ffe4e7">!</span></div><strong id="criticalCount">0</strong><small>Severity 4–5</small></div><div class="metric"><div class="metric-top">Doctor Stamina <span class="metric-icon">♡</span></div><strong id="stamina">8/10</strong><small>Simulation value</small></div><div class="metric"><div class="metric-top">Actions <span class="metric-icon">⚡</span></div><button class="soft" onclick="treatPatient()">Treat next patient</button></div></div><div class="panel"><div class="panel-head"><h3>Live Triage Queue</h3><span>Sorted by urgency</span></div><div class="tablewrap"><table><thead><tr><th>POSITION</th><th>PATIENT</th><th>ID</th><th>SEVERITY</th><th>EMERGENCY</th><th>ACTION</th></tr></thead><tbody id="queueTable"></tbody></table></div></div></section>
+                <section id="ambulance" class="sectionpage"><div class="head"><div><h1>Ambulance Control</h1><p>Fleet slots modeled on the 4 × 6 grid in your C project.</p></div><button class="soft" onclick="resetFleet()">Reset Fleet</button></div><div class="cards"><div class="metric"><div class="metric-top">Fleet Size <span class="metric-icon">🚑</span></div><strong>24</strong><small>4 vehicles × 6 slots</small></div><div class="metric"><div class="metric-top">Busy Slots <span class="metric-icon" style="background:#ffe4e7">●</span></div><strong id="busyCount">2</strong><small>Currently dispatched</small></div><div class="metric"><div class="metric-top">Available <span class="metric-icon">✓</span></div><strong id="freeCount">22</strong><small>Ready for dispatch</small></div><div class="metric"><div class="metric-top">Dispatch <span class="metric-icon">↗</span></div><small style="display:block;margin-top:15px">Click a slot to toggle its status.</small></div></div><div class="panel"><div class="panel-head"><h3>Fleet availability grid</h3><span>Green: available · Red: busy</span></div><div id="fleetGrid" class="ambulances"></div></div></section>
+                <section id="pharmacy" class="sectionpage"><div class="head"><div><h1>Pharmacy Inventory</h1><p>Medicine stock, pricing, expiry and triage priority.</p></div><button class="primary" onclick="openModal('medicineModal')">＋ Add Medicine</button></div><div class="cards"><div class="metric"><div class="metric-top">Inventory Items <span class="metric-icon">⚕</span></div><strong id="medCount">5</strong><small>Catalog entries</small></div><div class="metric"><div class="metric-top">Low Stock <span class="metric-icon" style="background:#fff4df">!</span></div><strong id="lowCount">2</strong><small>Below 10 units</small></div><div class="metric"><div class="metric-top">Out of Stock <span class="metric-icon" style="background:#ffe4e7">×</span></div><strong id="outCount">1</strong><small>Requires restocking</small></div><div class="metric"><div class="metric-top">Value on Hand <span class="metric-icon">₨</span></div><strong id="stockValue">₨—</strong><small>Estimated inventory value</small></div></div><div class="panel"><div class="panel-head"><h3>Medicine catalog</h3><input class="search" id="medSearch" placeholder="Search medicines…" oninput="renderMeds()"></div><div class="tablewrap"><table><thead><tr><th>MEDICINE</th><th>ID</th><th>STOCK</th><th>UNIT PRICE</th><th>EXPIRY</th><th>PRIORITY</th><th>ACTION</th></tr></thead><tbody id="medTable"></tbody></table></div></div></section>
+                <section id="billing" class="sectionpage"><div class="head"><div><h1>Patient Billing Desk</h1><p>Estimate room charges, consultation fees and discounts in PKR.</p></div></div><div class="layout2"><div class="panel"><div class="panel-head"><h3>Bill calculator</h3><span>Interactive estimate</span></div><div class="formgrid"><div class="field"><label>Patient</label><select id="billPatient"></select></div><div class="field"><label>Age</label><input id="billAge" type="number" min="0" max="120" value="30"></div><div class="field"><label>Monthly income (PKR)</label><input id="billIncome" type="number" value="60000"></div><div class="field"><label>Consultation fee (PKR)</label><input id="billConsult" type="number" value="1500"></div><div class="field"><label>Room type</label><select id="billRoom"><option value="0">Outpatient — ₨0/day</option><option value="1">General Ward — ₨2,000/day</option><option value="2">Private Room — ₨5,000/day</option><option value="3">ICU — ₨10,000/day</option></select></div><div class="field"><label>Days admitted</label><input id="billDays" type="number" min="0" value="1"></div></div><div class="formactions"><button class="primary" onclick="calculateBill()">Calculate bill</button><button class="soft" onclick="clearBill()">Reset</button></div></div><div class="panel"><div class="panel-head"><h3>Estimate summary</h3><span>PKR</span></div><div id="billSummary" class="empty">Enter bill details and calculate an estimate.</div><div class="footer-note">This GUI estimate is a prototype. Discount/fund logic may be simplified versus the original C functions.</div></div></div></section>
+                <section id="reports" class="sectionpage"><div class="head"><div><h1>Reports & Analytics</h1><p>Operational overview based on current prototype data.</p></div><button class="soft" onclick="exportCSV()">⇩ Export patients CSV</button></div><div class="cards"><div class="metric"><div class="metric-top">Patient capacity <span class="metric-icon">♙</span></div><strong id="capacity">0%</strong><small>of 100 record slots</small></div><div class="metric"><div class="metric-top">Emergency rate <span class="metric-icon">✚</span></div><strong id="erRate">0%</strong><small>Of registered records</small></div><div class="metric"><div class="metric-top">Restock alerts <span class="metric-icon">⚕</span></div><strong id="restock">2</strong><small>Inventory under 10</small></div><div class="metric"><div class="metric-top">Fleet availability <span class="metric-icon">🚑</span></div><strong id="fleetRate">92%</strong><small>Slots free</small></div></div><div class="layout2"><div class="panel"><div class="panel-head"><h3>Patient triage distribution</h3></div><div id="triageChart"></div></div><div class="panel"><div class="panel-head"><h3>Inventory stock levels</h3></div><div id="inventoryChart"></div></div></div></section>
+            </div>
+        </main>
+    </div>
+    <div class="toast" id="toast"></div>
+    <div class="modalback" id="patientModal"><div class="modal"><button class="close" onclick="closeModal('patientModal')">✕</button><h2>Register new patient</h2><form id="patientForm"><div class="formgrid"><div class="field"><label>Patient ID</label><input name="id" type="number" required min="1"></div><div class="field"><label>Full name</label><input name="name" required></div><div class="field"><label>Age</label><input name="age" type="number" required min="0" max="120"></div><div class="field"><label>Gender</label><select name="gender"><option>M</option><option>F</option><option>O</option></select></div><div class="field"><label>Phone (11 digits)</label><input name="phone" required pattern="[0-9]{11}"></div><div class="field"><label>Blood group</label><select name="blood"><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div><div class="field full"><label>Severity (1–5)</label><select name="severity"><option value="1">1 — Low</option><option value="2">2 — Mild</option><option value="3">3 — Moderate</option><option value="4">4 — High</option><option value="5">5 — Critical</option></select></div></div><div class="formactions"><button class="primary" type="submit">Save patient</button><button type="button" class="soft" onclick="closeModal('patientModal')">Cancel</button></div></form></div></div>
+    <div class="modalback" id="medicineModal"><div class="modal"><button class="close" onclick="closeModal('medicineModal')">✕</button><h2>Add medicine</h2><form id="medicineForm"><div class="formgrid"><div class="field"><label>Medicine ID</label><input name="id" type="number" required min="1"></div><div class="field"><label>Name</label><input name="name" required></div><div class="field"><label>Quantity</label><input name="quantity" type="number" min="0" required></div><div class="field"><label>Unit price (PKR)</label><input name="price" type="number" min="0.01" step=".01" required></div><div class="field"><label>Expiry (YYYYMMDD)</label><input name="expiry" type="number" required pattern="[0-9]{8}" value="20271231"></div><div class="field"><label>Triage priority</label><select name="priority"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div></div><div class="formactions"><button class="primary" type="submit">Add to inventory</button><button type="button" class="soft" onclick="closeModal('medicineModal')">Cancel</button></div></form></div></div>
+    <div class="modalback" id="queueModal"><div class="modal"><button class="close" onclick="closeModal('queueModal')">✕</button><h2>Add patient to ER queue</h2><form id="queueForm"><div class="formgrid"><div class="field full"><label>Patient</label><select name="patient" id="queuePatient" required></select></div><div class="field full"><label>Severity</label><select name="severity"><option value="5">5 — Critical</option><option value="4">4 — High</option><option value="3">3 — Moderate</option><option value="2">2 — Mild</option><option value="1">1 — Low</option></select></div></div><div class="formactions"><button class="primary" type="submit">Add to queue</button><button type="button" class="soft" onclick="closeModal('queueModal')">Cancel</button></div></form></div></div>
+    <
+    <script>
+        const DEFAULT_MEDS = [
+            { id: 101, name: "Paracetamol 500mg", quantity: 120, price: 50, expiry: "20271215", priority: 2 },
+            { id: 102, name: "Epinephrine Amp", quantity: 8, price: 450, expiry: "20261130", priority: 5 },
+            { id: 103, name: "Amoxicillin 250mg", quantity: 45, price: 180, expiry: "20270510", priority: 3 },
+            { id: 104, name: "Insulin Regular", quantity: 0, price: 1200, expiry: "20261201", priority: 5 },
+            { id: 105, name: "Sterile Bandage", quantity: 60, price: 85, expiry: "20280820", priority: 1 }
+        ];
+
+        function safeLoad(key, fallback) {
+            try {
+                const raw = localStorage.getItem(key);
+                return raw ? JSON.parse(raw) : fallback;
+            } catch (e) {
+                return fallback;
+            }
+        }
+
+        let patients = safeLoad("cp_patients", []);
+        let meds = safeLoad("cp_meds", JSON.parse(JSON.stringify(DEFAULT_MEDS)));
+        let queue = safeLoad("cp_queue", []);
+        let fleet = safeLoad("cp_fleet", Array.from({ length: 24 }, (_, i) => i < 2));
+        let stamina = localStorage.getItem("cp_stamina") !== null ? Number(localStorage.getItem("cp_stamina")) : 8;
+
+        function saveData() {
+            try {
+                localStorage.setItem("cp_patients", JSON.stringify(patients));
+                localStorage.setItem("cp_meds", JSON.stringify(meds));
+                localStorage.setItem("cp_queue", JSON.stringify(queue));
+                localStorage.setItem("cp_fleet", JSON.stringify(fleet));
+                localStorage.setItem("cp_stamina", String(stamina));
+            } catch (e) {
+                console.error("Storage error:", e);
+            }
+        }
+
+        const $ = id => document.getElementById(id);
+
+        function toast(msg) {
+            const t = $("toast");
+            if (!t) return;
+            t.textContent = msg;
+            t.style.display = "block";
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => t.style.display = "none", 2600);
+        }
+
+        // =========================================================
+        // NAVIGATION & MODALS (Wired immediately so clicks always work)
+        // =========================================================
+        document.querySelectorAll(".nav button[data-page]").forEach(btn => {
+            btn.onclick = function () {
+                showPage(this.getAttribute("data-page"));
+            };
+        });
+
+        function showPage(page) {
+            document.querySelectorAll(".sectionpage").forEach(s => {
+                s.classList.toggle("active", s.id === page);
+            });
+            document.querySelectorAll(".nav button[data-page]").forEach(b => {
+                b.classList.toggle("active", b.getAttribute("data-page") === page);
+            });
+            const label = document.querySelector(`button[data-page="${page}"] .label`);
+            if (label && $("crumb")) $("crumb").textContent = label.textContent;
+            renderAll();
+        }
+
+        function openModal(id) {
+            const el = $(id);
+            if (el) el.style.display = "grid";
+        }
+
+        function closeModal(id) {
+            const el = $(id);
+            if (el) el.style.display = "none";
+        }
+
+        function initials(n) {
+            return String(n || "PT").trim().split(/\s+/).map(x => x.charAt(0)).slice(0, 2).join("").toUpperCase();
+        }
+
+        function sevClass(s) {
+            return s >= 4 ? "critical" : s <= 2 ? "low" : "";
+        }
+
+        // =========================================================
+        // PATIENTS
+        // =========================================================
+        function renderPatients() {
+            if (!$("patientsTable")) return;
+            const q = ($("patientSearch")?.value || "").toLowerCase();
+            const arr = patients.filter(p => (p.name + " " + p.id).toLowerCase().includes(q));
+            $("patientsTable").innerHTML = arr.map(p => `
+            <tr>
+              <td><b>${p.name}</b></td>
+              <td>${p.id}</td>
+              <td>${p.age}</td>
+              <td>${p.gender}</td>
+              <td>${p.phone}</td>
+              <td>${p.blood}</td>
+              <td><span class="severity ${sevClass(p.severity)}">Level ${p.severity}</span></td>
+              <td><button class="danger" onclick="deletePatient(${p.id})">Delete</button></td>
+            </tr>
+          `).join("") || `<tr><td colspan="8" class="empty">No matching records</td></tr>`;
+        }
+
+        function deletePatient(id) {
+            if (!confirm("Delete this patient record?")) return;
+            patients = patients.filter(p => p.id !== id);
+            queue = queue.filter(q => q.id !== id);
+            saveData();
+            renderAll();
+            toast("Patient record deleted and saved.");
+        }
+
+        if ($("patientForm")) {
+            $("patientForm").addEventListener("submit", e => {
+                e.preventDefault();
+                const f = new FormData(e.target);
+                const id = +f.get("id");
+                const name = (f.get("name") || "").trim();
+                const age = +f.get("age");
+                const gender = f.get("gender");
+                const phone = (f.get("phone") || "").trim();
+                const blood = f.get("blood") || f.get("bloodGroup") || "O+";
+                const severity = +f.get("severity") || 1;
+
+                if (!id || id <= 0) { toast("Enter a valid positive Patient ID."); return; }
+                if (patients.some(p => p.id === id)) { toast("Patient ID already exists."); return; }
+                if (!/^[A-Za-z ]+$/.test(name)) { toast("Name must contain letters only."); return; }
+                if (age < 0 || age > 120) { toast("Age must be between 0 and 120."); return; }
+                if (!/^\d{11}$/.test(phone)) { toast("Phone must be exactly 11 digits."); return; }
+
+                const newPatient = { id, name, age, gender, phone, blood, severity };
+                patients.push(newPatient);
+
+                if (severity >= 4 && !queue.some(q => q.id === id)) {
+                    queue.push({ ...newPatient, emergency: 1 });
+                }
+
+                saveData();
+                e.target.reset();
+                closeModal("patientModal");
+                renderAll();
+                toast(severity >= 4 ? "Patient registered & auto-routed to ER!" : "Patient registered and saved.");
+            });
+        }
+
+        // =========================================================
+        // PHARMACY INVENTORY
+        // =========================================================
+        function renderMeds() {
+            if (!$("medTable")) return;
+            const q = ($("medSearch")?.value || "").toLowerCase();
+            const arr = meds.filter(m => (m.name + " " + m.id).toLowerCase().includes(q));
+            $("medTable").innerHTML = arr.map(m => `
+            <tr>
+              <td><b>${m.name}</b></td>
+              <td>${m.id}</td>
+              <td><span class="status ${m.quantity === 0 ? "critical" : m.quantity < 10 ? "warning" : ""}">${m.quantity} units</span></td>
+              <td>₨${Number(m.price).toLocaleString()}</td>
+              <td>${m.expiry}</td>
+              <td>${m.priority}</td>
+              <td><button class="soft" onclick="changeStock(${m.id})">Adjust stock</button></td>
+            </tr>
+          `).join("") || `<tr><td colspan="7" class="empty">No medicines found</td></tr>`;
+        }
+
+        function changeStock(id) {
+            const m = meds.find(x => x.id === id);
+            const val = prompt(`Stock adjustment for ${m.name} (positive to add, negative to reduce):`, "10");
+            if (val === null) return;
+            const n = Number(val);
+            if (!Number.isInteger(n) || m.quantity + n < 0) { toast("Invalid stock change."); return; }
+            m.quantity += n;
+            saveData();
+            renderAll();
+            toast("Inventory stock updated and saved.");
+        }
+
+        if ($("medicineForm")) {
+            $("medicineForm").addEventListener("submit", e => {
+                e.preventDefault();
+                const f = new FormData(e.target);
+                const id = +f.get("id");
+                if (meds.some(m => m.id === id)) { toast("Medicine ID already exists."); return; }
+                meds.push({
+                    id,
+                    name: f.get("name").trim(),
+                    quantity: +f.get("quantity"),
+                    price: +f.get("price"),
+                    expiry: f.get("expiry"),
+                    priority: +f.get("priority")
+                });
+                saveData();
+                e.target.reset();
+                closeModal("medicineModal");
+                renderAll();
+                toast("Medicine added to inventory and saved.");
+            });
+        }
+
+        // =========================================================
+        // EMERGENCY QUEUE & DOCTOR STAMINA
+        // =========================================================
+        function renderQueue() {
+            if (!$("queueTable")) return;
+            queue.sort((a, b) => b.emergency - a.emergency || b.severity - a.severity);
+            $("queueTable").innerHTML = queue.map((p, i) => `
+            <tr>
+              <td>${i + 1}</td>
+              <td><b>${p.name}</b></td>
+              <td>${p.id}</td>
+              <td><span class="severity ${sevClass(p.severity)}">Level ${p.severity}</span></td>
+              <td>${p.emergency ? "⚠ Yes" : "No"}</td>
+              <td><button class="soft" onclick="removeQueue(${p.id})">Remove</button></td>
+            </tr>
+          `).join("") || `<tr><td colspan="6" class="empty">ER queue is empty</td></tr>`;
+        }
+
+        function removeQueue(id) {
+            queue = queue.filter(p => p.id !== id);
+            saveData();
+            renderAll();
+            toast("Patient removed from ER queue.");
+        }
+
+        function treatPatient() {
+            if (!queue.length) { toast("ER queue is empty."); return; }
+            if (stamina <= 0) { toast("Doctor stamina is 0/10! Rest doctor first."); return; }
+            const p = queue.shift();
+            const cost = p.severity >= 4 ? 2 : 1;
+            stamina = Math.max(0, stamina - cost);
+            saveData();
+            renderAll();
+            toast(`Treated ${p.name} (Stamina -${cost}).`);
+        }
+
+        function restDoctor() {
+            stamina = 10;
+            saveData();
+            renderAll();
+            toast("Doctor rested. Stamina restored to 10/10.");
+        }
+
+        if ($("queueForm")) {
+            $("queueForm").addEventListener("submit", e => {
+                e.preventDefault();
+                const f = new FormData(e.target);
+                const p = patients.find(p => p.id === +f.get("patient"));
+                if (!p) { toast("Select a registered patient first."); return; }
+                if (queue.some(q => q.id === p.id)) { toast("Patient already in ER queue."); return; }
+                queue.push({ ...p, severity: +f.get("severity"), emergency: +f.get("severity") >= 4 ? 1 : 0 });
+                saveData();
+                closeModal("queueModal");
+                e.target.reset();
+                renderAll();
+                toast("Patient added to ER queue and saved.");
+            });
+        }
+
+        // =========================================================
+        // AMBULANCE FLEET
+        // =========================================================
+        function renderFleet() {
+            if (!$("fleetGrid")) return;
+            $("fleetGrid").innerHTML = fleet.map((busy, i) => `
+            <button class="slot ${busy ? "busy" : ""}" onclick="toggleFleet(${i})">
+              🚑 Vehicle ${Math.floor(i / 6) + 1}
+              <small>Slot ${i % 6 + 1} · ${busy ? "BUSY" : "FREE"}</small>
+            </button>
+          `).join("");
+            const busy = fleet.filter(Boolean).length;
+            if ($("busyCount")) $("busyCount").textContent = busy;
+            if ($("freeCount")) $("freeCount").textContent = 24 - busy;
+            if ($("mAmb")) $("mAmb").innerHTML = `${busy} <small style="font-size:15px;color:#8b99a8">/ 24</small>`;
+            if ($("fleetRate")) $("fleetRate").textContent = Math.round((24 - busy) / 24 * 100) + "%";
+        }
+
+        function toggleFleet(i) {
+            fleet[i] = !fleet[i];
+            saveData();
+            renderAll();
+            toast(`Fleet slot ${i + 1} ${fleet[i] ? "marked busy" : "released"} and saved.`);
+        }
+        function resetFleet() {
+            fleet = fleet.map(() => false);
+            saveData();
+            renderAll();
+            toast("All fleet slots set to available.");
+        }
+        // =========================================================
+        // OVERVIEW, BILLING, REPORTS & CSV EXPORT
+        // =========================================================
+        function renderOverview() {
+            const critical = queue.filter(q => q.severity >= 4).length;
+            const low = meds.filter(m => m.quantity < 10);
+            if ($("mPatients")) $("mPatients").textContent = patients.length;
+            if ($("mQueue")) $("mQueue").textContent = queue.length;
+            if ($("mMeds")) $("mMeds").textContent = meds.length;
+            if ($("erCount")) $("erCount").textContent = queue.length;
+            if ($("criticalCount")) $("criticalCount").textContent = critical;
+            if ($("stamina")) $("stamina").textContent = stamina + "/10";
+            if ($("alertCount")) $("alertCount").textContent = (low.length + critical) + " active alerts";
+            if ($("alerts")) {
+                $("alerts").innerHTML = [
+                    ...queue.filter(q => q.severity >= 4).map(q => `<div class="alert"><span class="dot"></span><div><strong>Critical ER patient · ${q.name}</strong><small>Patient ID ${q.id} · Severity ${q.severity}</small></div><span class="tag">URGENT</span></div>`),
+                    ...low.map(m => `<div class="alert" style="background:#fff7e9"><span class="dot" style="background:var(--amber)"></span><div><strong>${m.name} · ${m.quantity === 0 ? "Out of stock" : "Low stock"}</strong><small>Inventory ID ${m.id} · ${m.quantity} units remaining</small></div><span class="tag" style="background:#ffebc9;color:#ad7623">STOCK</span></div>`)
+                ].join("") || `<div class="empty">No active alerts. Everything looks good.</div>`;
+            }
+            if ($("recentPatients")) {
+                $("recentPatients").innerHTML = patients.slice(-4).reverse().map(p => `<tr><td><b>${p.name}</b></td><td>${p.id}</td><td>${p.age}</td><td>${p.blood}</td><td><span class="severity ${sevClass(p.severity)}">Level ${p.severity}</span></td></tr>`).join("");
+            }
+            if ($("queuePreview")) {
+                $("queuePreview").innerHTML = queue.slice(0, 4).map(p => `<div class="queue-item"><div class="patient-avatar">${initials(p.name)}</div><div><div class="qname">${p.name}</div><div class="qsub">ID ${p.id} · ER triage</div></div><span class="severity ${sevClass(p.severity)}">Level ${p.severity}</span></div>`).join("") || `<div class="empty">Queue is empty</div>`;
+            }
+            if ($("stockPreview")) {
+                $("stockPreview").innerHTML = low.map(m => `<div class="queue-item"><div class="patient-avatar" style="background:#fff3df;color:#b77d26">⚕</div><div><div class="qname">${m.name}</div><div class="qsub">ID ${m.id}</div></div><span class="severity ${m.quantity === 0 ? "critical" : ""}">${m.quantity} left</span></div>`).join("") || `<div class="empty">Stock levels are healthy</div>`;
+            }
+        }
+
+        function renderBillingSelects() {
+            const opts = patients.map(p => `<option value="${p.id}">${p.name} · ${p.id}</option>`).join("");
+            if ($("billPatient")) $("billPatient").innerHTML = opts;
+            if ($("queuePatient")) $("queuePatient").innerHTML = opts;
+            if (patients.length && $("billAge")) {
+                const selected = patients.find(p => p.id === +$("billPatient").value) || patients.at(0);
+                $("billAge").value = selected.age;
+            }
+        }
+
+        if ($("billPatient")) {
+            $("billPatient").addEventListener("change", () => {
+                const p = patients.find(x => x.id === +$("billPatient").value);
+                if (p && $("billAge")) $("billAge").value = p.age;
+            });
+        }
+
+        function renderReports() {
+            if (!$("capacity")) return;
+            const cap = Math.round(patients.length / 100 * 100);
+            $("capacity").textContent = cap + "%";
+            $("erRate").textContent = (patients.length ? Math.round(patients.filter(p => p.severity >= 4).length / patients.length * 100) : 0) + "%";
+            $("restock").textContent = meds.filter(m => m.quantity < 10).length;
+
+            if ($("triageChart")) {
+                const levels = Array.of(1, 2, 3, 4, 5);
+                $("triageChart").innerHTML = levels.map(s => {
+                    const c = patients.filter(p => p.severity === s).length;
+                    const percent = patients.length ? c / patients.length * 100 : 0;
+                    return `<div style="margin:14px 0"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span>Severity ${s}</span><b>${c}</b></div><div style="height:8px;background:#edf2f5;border-radius:8px;overflow:hidden"><div style="height:100%;width:${percent}%;background:${s >= 4 ? "#e65d68" : "#16b8a6"};border-radius:8px"></div></div></div>`;
+                }).join("");
+            }
+s
+        }
+
+        function renderAll() {
+            renderPatients();
+            renderMeds();
+            renderQueue();
+            renderFleet();
+            renderOverview();
+            renderBillingSelects();
+            renderReports();
+            if ($("medCount")) $("medCount").textContent = meds.length;
+            if ($("lowCount")) $("lowCount").textContent = meds.filter(m => m.quantity > 0 && m.quantity < 10).length;
+            if ($("outCount")) $("outCount").textContent = meds.filter(m => m.quantity === 0).length;
+            if ($("stockValue")) $("stockValue").textContent = "₨" + meds.reduce((a, m) => a + m.quantity * m.price, 0).toLocaleString();
+            if ($("mPatients")) $("mPatients").textContent = patients.length;
+            if ($("mQueue")) $("mQueue").textContent = queue.length;
+        }
+
+        function calculateBill() {
+            const age = +$("billAge").value;
+            const income = +$("billIncome").value;
+            const consult = +$("billConsult").value;
+            const days = Math.max(0, +$("billDays").value);
+            const room = +$("billRoom").value;
+            const rates = Array.of(0, 2000, 5000, 10000);
+            const rate = rates.at(room) || 0;
+            const roomCost = rate * days;
+            const subtotal = consult + roomCost;
+            const senior = age >= 60 ? subtotal * 0.2 : 0;
+            const remainder = subtotal - senior;
+            const charity = income <= 50000 ? remainder * 0.5 : 0;
+            const discount = senior + charity;
+            const total = subtotal - discount;
+
+            $("billSummary").className = "";
+            $("billSummary").innerHTML = `
+        <div style="font-size:12px;color:var(--muted)">Subtotal</div>
+        <div style="font-size:23px;font-weight:800;margin:6px 0 18px">₨${subtotal.toLocaleString()}</div>
+        <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:12px"><span>Consultation fee</span><b>₨${consult.toLocaleString()}</b></div>
+        <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:12px"><span>Room charges (${days} days)</span><b>₨${roomCost.toLocaleString()}</b></div>
+        <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:12px"><span>Discounts (Senior + Charity)</span><b style="color:var(--green)">−₨${discount.toLocaleString()}</b></div>
+        <div style="background:#e8f8f5;padding:17px;border-radius:10px;margin-top:14px">
+          <div style="font-size:11px;color:#168e82">NET PAYABLE ESTIMATE</div>
+          <div style="font-size:27px;font-weight:850;color:#128e82;margin-top:6px">₨${total.toLocaleString()}</div>
+        </div>
+      `;
+        }
+
+        function clearBill() {
+            $("billConsult").value = 1500;
+            $("billIncome").value = 60000;
+            $("billDays").value = 1;
+            $("billRoom").value = 0;
+            $("billSummary").className = "empty";
+            $("billSummary").textContent = "Enter bill details and calculate an estimate.";
+        }
+
+        function exportCSV() {
+            const header = Array.of("ID", "Name", "Age", "Gender", "Phone", "Blood Group", "Severity");
+            const rows = Array.of(header, ...patients.map(p => Array.of(p.id, p.name, p.age, p.gender, p.phone, p.blood, p.severity)));
+            const csv = rows.map(r => r.map(v => `"${String(v).replaceAll('"', '""')}"`).join(",")).join("\n");
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+            a.download = "carepulse-patients.csv";
+            a.click();
+            URL.revokeObjectURL(a.href);
+            toast("CSV export generated.");
+        }
+
+        renderAll();
+    </script>
+</body>
+</html>
+
+
+
+
+

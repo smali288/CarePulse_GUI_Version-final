@@ -27,8 +27,3 @@ A comprehensive Hospital Management System developed in *C* .
 * *Version Control:* Git & GitHub
 
 ---
-
-## ⚙️ How to Compile & Run
-1. Open *Dev-C++* or your preferred C IDE.
-2. Open the project folder and load *main.c* along with the module header files (member1.h, menus.h, security.h, validation.h, structs.h).
-3. Compile and run the project executable to launch the GUI navigation interface.
